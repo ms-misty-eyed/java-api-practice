@@ -20,13 +20,11 @@ public class GitHubAPI {
 
     public static void getGitHubUser(String username) throws IOException, InterruptedException {
 
-
         // Build URL
         String url = String.format("https://api.github.com/users/%s", username);
 
         // Make request
         HttpClient client = HttpClient.newHttpClient();
-
         HttpRequest request = HttpRequest.newBuilder()
             .uri(URI.create(url))
             .GET()
@@ -59,9 +57,6 @@ public class GitHubAPI {
             System.out.println("Is following " + following + (following > 1?" accounts": " account"));
             System.out.println("Profile picture: " + avatarUrl);
             System.out.println();
-
         }
-
-
     }
 }
