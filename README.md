@@ -31,7 +31,7 @@ Gets NASA's Astronomy Picture of the Day.
 - Handling optional JSON fields
 
 ## How to Run
-1. Clone the repo: `git clone [[your-url]](https://github.com/ms-misty-eyed/java-api-practice.git)`
+1. Clone the repo: `git clone https://github.com/ms-misty-eyed/java-api-practice.git`
 2. Navigate to the project folder.
 3. Run via Maven: `mvn clean compile exec:java -Dexec.mainClass="com.practice.Main"`
 
