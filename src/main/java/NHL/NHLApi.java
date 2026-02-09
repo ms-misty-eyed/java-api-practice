@@ -1,16 +1,16 @@
+package NHL;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
+import java.util.Scanner;
 
 public class NHLApi {
     //Used https://github.com/Zmalski/NHL-API-Reference.git
@@ -54,18 +54,20 @@ public class NHLApi {
     );
 
     public static void main (String[] args) throws IOException, InterruptedException {
-        getPlayer();
+        //Ask tne question infinitely
+        for(int i =0; ; i++){
+            askQuestion();
+        }
     }
 
-    public static void getPlayer() throws IOException, InterruptedException {
-        // Get a team, get a position, get a player
-
-        //Random mode
-
-        //Get a team code with index 0-32
+    private static Team getTeam(){
+        //Generate a random team
         int randomTeamCode = (int) ((Math.random() * 32));
-        Team team = teams.get(randomTeamCode);
+        return teams.get(randomTeamCode);
+    }
 
+    private static Player getPlayer() throws IOException, InterruptedException {
+        Team team = getTeam();
         String url = String.format(BASE_ROSTER_URL + "%s/current", team.code());
 
         //Create an HTTP Client
@@ -103,12 +105,56 @@ public class NHLApi {
             //Extract his name, jersey number and position
             String name = player.get("firstName").getAsJsonObject().get("default").getAsString();
             String lastName = player.get("lastName").getAsJsonObject().get("default").getAsString();
-            int jerseyNumber = player.get("sweaterNumber").getAsInt();
+            int jerseyNumber = player.has("sweaterNumber") ? player.get("sweaterNumber").getAsInt() : 0;
 
-            //Test result
-            System.out.println(name + " " + lastName + " " + jerseyNumber);
-        }else {
-            System.out.println("Bad status code: " + response.statusCode());  // ADD THIS
+            return new Player(name, lastName, jerseyNumber, team.code, team.city, team.name);
+
+            //If response was unsuccessful
+        } else {
+            System.out.println("Bad status code: " + response.statusCode());
         }
+
+        return null;
+    }
+
+    public static void askQuestion() throws IOException, InterruptedException {
+
+        //Get a player
+        Player player = getPlayer();
+        String name = player.getName();
+        String lastName = player.getLastName();
+        int jerseyNumber = player.getJerseyNumber();
+
+
+            //Ask the question
+            while(true){
+                System.out.println();
+                String question = String.format("For what team does %s %s (Jersey number %d) plays for?",name, lastName, jerseyNumber);
+                System.out.println(question);
+
+                //Create a Scanner and read input
+                Scanner sc = new Scanner(System.in);
+                String input = sc.nextLine();
+
+                //Compare the results
+                if(input.toUpperCase().equals(player.teamName.toUpperCase())){
+                    System.out.println("Good answer");
+                    break;
+                }
+                if(input.toUpperCase().equals(player.teamCity.toUpperCase())){
+                    System.out.println("Good answer");
+                    break;
+                }
+                if(input.toUpperCase().equals(player.teamCode.toUpperCase())){
+                    System.out.println("Good answer");
+                    break;
+                }
+                else{
+                    System.out.println("Wrong answer");
+                    break;
+                }
+
+            }
+
     }
 }
