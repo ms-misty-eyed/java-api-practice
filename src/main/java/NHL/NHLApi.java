@@ -127,34 +127,23 @@ public class NHLApi {
 
 
             //Ask the question
-            while(true){
-                System.out.println();
-                String question = String.format("For what team does %s %s (Jersey number %d) plays for?",name, lastName, jerseyNumber);
-                System.out.println(question);
+            System.out.println();
+            String question = String.format("For what team does %s %s (Jersey number %d) plays for?", name, lastName, jerseyNumber);
+            System.out.println(question);
 
-                //Create a Scanner and read input
-                Scanner sc = new Scanner(System.in);
-                String input = sc.nextLine();
+            //Create a Scanner and read input
+            Scanner sc = new Scanner(System.in);
+            String input = sc.nextLine();
 
-                //Compare the results
-                if(input.toUpperCase().equals(player.teamName.toUpperCase())){
-                    System.out.println("Good answer");
-                    break;
-                }
-                if(input.toUpperCase().equals(player.teamCity.toUpperCase())){
-                    System.out.println("Good answer");
-                    break;
-                }
-                if(input.toUpperCase().equals(player.teamCode.toUpperCase())){
-                    System.out.println("Good answer");
-                    break;
-                }
-                else{
-                    System.out.println("Wrong answer");
-                    break;
-                }
+            //Compare the results
+            if (input.equalsIgnoreCase(player.teamName) ||
+                input.equalsIgnoreCase(player.teamCity) ||
+                input.equalsIgnoreCase(player.teamCode)) {
+                System.out.println("Good answer!!");
+            } else {
 
-            }
-
+                //String.format("Wrong answer: He plays for the %s %s", player.teamCity, player.teamName);
+                System.out.println(String.format("Wrong answer: He plays for the %s %s", player.teamCity, player.teamName));
+        }
     }
 }
