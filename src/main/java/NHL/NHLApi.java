@@ -16,6 +16,7 @@ public class NHLApi {
     //Used https://github.com/Zmalski/NHL-API-Reference.git
 
     private static final String BASE_ROSTER_URL = "https://api-web.nhle.com/v1/roster/";
+    static Scanner sc = new Scanner(System.in);
 
     record Team(String code, String city, String name) {}
     private static final List<Team> teams = List.of(
@@ -56,7 +57,10 @@ public class NHLApi {
     public static void main (String[] args) throws IOException, InterruptedException {
         //Ask tne question infinitely
         for(int i =0; ; i++){
-            askQuestion();
+            //1. get a player, asks for a team
+            //askQuestion();
+            //2. give a team and a jersey member, ask for last name
+            askLastName();
         }
     }
 
@@ -113,7 +117,6 @@ public class NHLApi {
         } else {
             System.out.println("Bad status code: " + response.statusCode());
         }
-
         return null;
     }
 
@@ -132,7 +135,6 @@ public class NHLApi {
             System.out.println(question);
 
             //Create a Scanner and read input
-            Scanner sc = new Scanner(System.in);
             String input = sc.nextLine();
 
             //Compare the results
@@ -144,6 +146,34 @@ public class NHLApi {
 
                 //String.format("Wrong answer: He plays for the %s %s", player.teamCity, player.teamName);
                 System.out.println(String.format("Wrong answer: He plays for the %s %s", player.teamCity, player.teamName));
+        }
+    }
+
+    public static void askLastName() throws IOException, InterruptedException {
+        //Get a player
+        Player player = getPlayer();
+        String name = player.getName();
+        String lastName = player.getLastName();
+        int jerseyNumber = player.getJerseyNumber();
+
+        String teamName = player.getTeamName();
+        String teamCity = player.getTeamCity();
+
+        //Ask the question
+        String question = String.format("What's the last name of the player wearing number %d on the %s %s",
+                jerseyNumber, teamCity, teamName);
+        System.out.println();
+        System.out.println(question);
+        String answer = sc.nextLine();
+
+        //Verify the answer
+        if(answer.equalsIgnoreCase(lastName)){
+            System.out.println("Good Answer!");
+        }
+        else{
+            String goodAnswer = String.format("%s %s wears number %d for the %s %s",
+                    name, lastName, jerseyNumber, teamCity, teamName);
+            System.out.println(goodAnswer);
         }
     }
 }
