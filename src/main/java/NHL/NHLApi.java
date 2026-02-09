@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class NHLApi {
-    //Used https://github.com/Zmalski/NHL-API-Reference.git
+    //Used https://github.com/Zmalski/NHL-API-Reference.git to get API references
 
     private static final String BASE_ROSTER_URL = "https://api-web.nhle.com/v1/roster/";
     static Scanner sc = new Scanner(System.in);
@@ -57,15 +57,27 @@ public class NHLApi {
     public static void main (String[] args) throws IOException, InterruptedException {
         //Ask tne question infinitely
         for(int i =0; ; i++){
-            //1. get a player, asks for a team
-            //askQuestion();
-            //2. give a team and a jersey member, ask for last name
+            System.out.println("===============NHL Quiz===============");
+            System.out.println("Type a number to choose game modes:");
+            System.out.println("1. Find the team");
+            System.out.println("2. Find the name");
+
+            int choice = sc.nextInt();
+            switch (choice){
+                case 1:
+                    askTeam();
+                    break;
+                case 2:
+                    askLastName();
+                    break;
+            }
+
             askLastName();
         }
     }
 
     private static Team getTeam(){
-        //Generate a random team
+        //Generate a random team (14 = MTL)
         int randomTeamCode = (int) ((Math.random() * 32));
         return teams.get(randomTeamCode);
     }
@@ -120,7 +132,7 @@ public class NHLApi {
         return null;
     }
 
-    public static void askQuestion() throws IOException, InterruptedException {
+    public static void askTeam() throws IOException, InterruptedException {
 
         //Get a player
         Player player = getPlayer();
@@ -134,7 +146,7 @@ public class NHLApi {
             String question = String.format("For what team does %s %s (Jersey number %d) plays for?", name, lastName, jerseyNumber);
             System.out.println(question);
 
-            //Create a Scanner and read input
+            //read input
             String input = sc.nextLine();
 
             //Compare the results
@@ -143,8 +155,6 @@ public class NHLApi {
                 input.equalsIgnoreCase(player.teamCode)) {
                 System.out.println("Good answer!!");
             } else {
-
-                //String.format("Wrong answer: He plays for the %s %s", player.teamCity, player.teamName);
                 System.out.println(String.format("Wrong answer: He plays for the %s %s", player.teamCity, player.teamName));
         }
     }
@@ -162,6 +172,7 @@ public class NHLApi {
         //Ask the question
         String question = String.format("What's the last name of the player wearing number %d on the %s %s",
                 jerseyNumber, teamCity, teamName);
+
         System.out.println();
         System.out.println(question);
         String answer = sc.nextLine();
@@ -173,6 +184,7 @@ public class NHLApi {
         else{
             String goodAnswer = String.format("%s %s wears number %d for the %s %s",
                     name, lastName, jerseyNumber, teamCity, teamName);
+
             System.out.println(goodAnswer);
         }
     }
