@@ -24,6 +24,11 @@ Look up any GitHub user and display their profile information.
 - Working with flat JSON objects
 - Displays username, followers, repos, and profile picture
 
+### NHL Quiz
+Get tested on your general knowledge on the national hockey leagues players!
+- Ressources for the APIs: [Zmalski/NHL-API-Reference]((https://github.com/Zmalski/NHL-API-Reference.git))
+- Plan to make it into a website using SpringBoot
+
 ### NASA APOD (TODO)
 Gets NASA's Astronomy Picture of the Day.
 - API key authentication
