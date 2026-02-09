@@ -148,7 +148,6 @@ public class NHLApi {
         String lastName = player.getLastName();
         int jerseyNumber = player.getJerseyNumber();
 
-
             //Ask the question
             System.out.println();
             String question = String.format("For what team does %s %s (Jersey number %d) plays for?", name, lastName, jerseyNumber);
@@ -163,7 +162,7 @@ public class NHLApi {
                 input.equalsIgnoreCase(player.teamCode)) {
                 System.out.println("Good answer!!");
             } else {
-                System.out.println(String.format("Wrong answer: He plays for the %s %s", player.teamCity, player.teamName));
+                System.out.printf("Wrong answer: He plays for the %s %s%n", player.teamCity, player.teamName);
         }
     }
 
