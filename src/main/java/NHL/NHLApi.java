@@ -61,18 +61,26 @@ public class NHLApi {
             System.out.println("Type a number to choose game modes:");
             System.out.println("1. Find the team");
             System.out.println("2. Find the name");
+            System.out.println("0. Exit");
 
             int choice = sc.nextInt();
+            sc.nextLine();
             switch (choice){
+                case 0:
+                    System.exit(0);
                 case 1:
-                    askTeam();
+                    for(int j =0; j<5; j++){
+                        askTeam();
+                    }
                     break;
                 case 2:
-                    askLastName();
+                    for(int j =0; j<5; j++){
+                        askLastName();
+                    }
                     break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
             }
-
-            askLastName();
         }
     }
 
