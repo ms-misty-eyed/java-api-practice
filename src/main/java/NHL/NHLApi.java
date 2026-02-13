@@ -18,6 +18,10 @@ public class NHLApi {
     private static final String BASE_ROSTER_URL = "https://api-web.nhle.com/v1/roster/";
     static Scanner sc = new Scanner(System.in);
 
+    //Tracking the score
+    private static int score;
+    private static int questionsAsked;
+
     record Team(String code, String city, String name) {}
     private static final List<Team> teams = List.of(
             new Team("ANA", "Anaheim", "Ducks"),
@@ -72,11 +76,13 @@ public class NHLApi {
                     for(int j =0; j<5; j++){
                         askTeam();
                     }
+                    System.out.printf("\nScore: %d/%d\n", score, questionsAsked);
                     break;
                 case 2:
                     for(int j =0; j<5; j++){
                         askLastName();
                     }
+                    System.out.printf("\nScore: %d/%d\n", score, questionsAsked);
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
@@ -152,6 +158,10 @@ public class NHLApi {
             System.out.println();
             String question = String.format("For what team does %s %s (Jersey number %d) plays for?", name, lastName, jerseyNumber);
             System.out.println(question);
+            questionsAsked++;
+
+        //test
+        System.out.println(questionsAsked);
 
             //read input
             String input = sc.nextLine();
@@ -161,6 +171,7 @@ public class NHLApi {
                 input.equalsIgnoreCase(player.teamCity) ||
                 input.equalsIgnoreCase(player.teamCode)) {
                 System.out.println("Good answer!!");
+                score++;
             } else {
                 System.out.printf("Wrong answer: He plays for the %s %s%n", player.teamCity, player.teamName);
         }
@@ -179,6 +190,10 @@ public class NHLApi {
         //Ask the question
         String question = String.format("What's the last name of the player wearing number %d on the %s %s",
                 jerseyNumber, teamCity, teamName);
+        questionsAsked++;
+
+        //test
+        System.out.println(questionsAsked);
 
         System.out.println();
         System.out.println(question);
@@ -187,9 +202,10 @@ public class NHLApi {
         //Verify the answer
         if(answer.equalsIgnoreCase(lastName)){
             System.out.println("Good Answer!");
+            score++;
         }
         else{
-            String goodAnswer = String.format("%s %s wears number %d for the %s %s",
+            String goodAnswer = String.format("Wrong answer: %s %s wears number %d for the %s %s",
                     name, lastName, jerseyNumber, teamCity, teamName);
 
             System.out.println(goodAnswer);
